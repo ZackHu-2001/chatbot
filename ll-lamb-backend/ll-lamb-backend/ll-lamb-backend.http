@@ -1,0 +1,6 @@
+@ll_lamb_backend_HostAddress = http://localhost:5018
+
+GET {{ll_lamb_backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
