@@ -92,3 +92,5 @@ pids
 # Docker
 .dockerignore
 Dockerfile.dev
+
+.gitignore
