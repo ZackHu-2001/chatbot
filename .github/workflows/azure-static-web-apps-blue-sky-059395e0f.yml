@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd ./ll-lamb-frontend
-          npm ci
+          npm install
       
       # 构建Next.js项目
       - name: Build Next.js app
