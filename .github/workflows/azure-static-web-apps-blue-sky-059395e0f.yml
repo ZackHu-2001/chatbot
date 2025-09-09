@@ -19,18 +19,40 @@ jobs:
         with:
           submodules: true
           lfs: false
+      
+      # 设置Node.js环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: './ll-lamb-frontend/package-lock.json'
+      
+      # 安装依赖
+      - name: Install dependencies
+        run: |
+          cd ./ll-lamb-frontend
+          npm ci
+      
+      # 构建Next.js项目
+      - name: Build Next.js app
+        run: |
+          cd ./ll-lamb-frontend
+          npm run build
+      
+      # 部署到Azure Static Web Apps
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_BLUE_SKY_059395E0F }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
-          # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-          app_location: "./ll-lamb-frontend" # App source code path
-          api_location: "" # Api source code path - optional
-          output_location: "out" # Built app content directory - optional
+          ###### Repository/Build Configurations ######
+          app_location: "./ll-lamb-frontend"
+          api_location: ""
+          output_location: "out"
+          skip_app_build: true  # 因为我们已经手动构建了
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
