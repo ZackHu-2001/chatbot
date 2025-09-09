@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Chat } from '@/types/chat';
+import { Chat, Message } from '@/types/chat';
 
 export function useChatHistory() {
   const [chats, setChats] = useState<Chat[]>([]);
@@ -9,11 +9,15 @@ export function useChatHistory() {
     const savedChats = localStorage.getItem('chatHistory');
     if (savedChats) {
       try {
-        const parsedChats = JSON.parse(savedChats).map((chat: any) => ({
+        const parsedChats = JSON.parse(savedChats).map((chat: Omit<Chat, 'createdAt' | 'updatedAt' | 'messages'> & {
+          createdAt: string;
+          updatedAt: string;
+          messages: (Omit<Message, 'timestamp'> & { timestamp: string })[];
+        }) => ({
           ...chat,
           createdAt: new Date(chat.createdAt),
           updatedAt: new Date(chat.updatedAt),
-          messages: chat.messages.map((msg: any) => ({
+          messages: chat.messages.map((msg: Omit<Message, 'timestamp'> & { timestamp: string }) => ({
             ...msg,
             timestamp: new Date(msg.timestamp)
           }))
