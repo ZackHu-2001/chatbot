@@ -51,7 +51,7 @@ jobs:
           ###### Repository/Build Configurations ######
           app_location: "./ll-lamb-frontend/out"
           api_location: ""
-          output_location: "out"
+          output_location: ""
           skip_app_build: true  # 因为我们已经手动构建了
           ###### End of Repository/Build Configurations ######
 
